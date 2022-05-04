@@ -1,0 +1,47 @@
+﻿<Window x:Class="PW21Factory.OutputRequirement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PW21Factory"
+        mc:Ignorable="d"
+        Title="OutputRequirement" MinHeight="350" MinWidth="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" FontSize="12" SizeToContent="WidthAndHeight" Loaded="Window_Loaded">
+    <DockPanel>
+        <GroupBox Header="Требование">
+            <StackPanel>
+                <Label Content="Номер требования"/>
+                <TextBox x:Name="RequirementID" Margin="3"/>
+                <Label Content="Код детали"/>
+                <TextBox x:Name="DetailID" Margin="3"/>
+                <Label Content="Количество выдано"/>
+                <TextBox x:Name="OutputCount" Margin="3"/>
+                <Label Content="Дата выдачи"/>
+                <TextBox x:Name="DateOfOutput" Margin="3"/>
+                <Button x:Name="AddRecord" Content="Добавить" Margin="3" Click="AddRecord_Click"/>
+                <Button x:Name="ChangeRecord" Content="Изменить" Margin="3" Click="ChangeRecord_Click"/>
+                <Button x:Name="RemoveRecord" Content="Удалить" Margin="3" Click="RemoveRecord_Click"/>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel>
+            <ListView x:Name="RequirementOnOutput" SelectionChanged="RequirementOnOutput_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Код требования" Width="90" DisplayMemberBinding="{Binding RequirementID}"/>
+                        <GridViewColumn Header="Код детали" Width="90" DisplayMemberBinding="{Binding DetailID}"/>
+                        <GridViewColumn Header="Кол-во поступило" Width="130" DisplayMemberBinding="{Binding OutputCount}"/>
+                        <GridViewColumn Header="Дата получения" Width="140" DisplayMemberBinding="{Binding DateOfOutput}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="DetailInfo">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Код детали" Width="90" DisplayMemberBinding="{Binding DetailID}"/>
+                        <GridViewColumn Header="Имя детали" Width="195" DisplayMemberBinding="{Binding DetailName}"/>
+                        <GridViewColumn Header="Кол-во" Width="130" DisplayMemberBinding="{Binding DetailCount}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </DockPanel>
+</Window>

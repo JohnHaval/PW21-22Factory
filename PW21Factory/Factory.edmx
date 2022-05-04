@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище FactoryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="InvoiceOnInput">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="InputCount" Type="int" Nullable="false" />
+          <Property Name="DateOfInput" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movement">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="DetailName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DetailCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PriceDictionary">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequiermentOnOutput">
+          <Key>
+            <PropertyRef Name="RequirementID" />
+          </Key>
+          <Property Name="RequirementID" Type="int" Nullable="false" />
+          <Property Name="DetailID" Type="int" Nullable="false" />
+          <Property Name="OutputCount" Type="int" Nullable="false" />
+          <Property Name="DateOfOutput" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_InvoiceOnInput_PriceDictionary">
+          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="1" />
+          <End Role="InvoiceOnInput" Type="Self.InvoiceOnInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="InvoiceOnInput">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movement_PriceDictionary">
+          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="1" />
+          <End Role="Movement" Type="Self.Movement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="Movement">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequiermentOnOutput_PriceDictionary">
+          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="1" />
+          <End Role="RequiermentOnOutput" Type="Self.RequiermentOnOutput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="RequiermentOnOutput">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DetailID" Type="int" Mode="In" />
+          <Parameter Name="DetailName" Type="nvarchar" Mode="In" />
+          <Parameter Name="DetailCount" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddDetailPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DetailID" Type="int" Mode="In" />
+          <Parameter Name="Price" Type="money" Mode="In" />
+        </Function>
+        <Function Name="AddInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
+          <Parameter Name="DetailID" Type="int" Mode="In" />
+          <Parameter Name="InputCount" Type="int" Mode="In" />
+          <Parameter Name="DateOfInput" Type="date" Mode="In" />
+        </Function>
+        <Function Name="AddRequirement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RequirementID" Type="int" Mode="In" />
+          <Parameter Name="DetailID" Type="int" Mode="In" />
+          <Parameter Name="OutputCount" Type="int" Mode="In" />
+          <Parameter Name="DateOfOutput" Type="date" Mode="In" />
+        </Function>
+        <Function Name="MainDetailInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="RemoveDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DetailID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RemoveDetailPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DetailID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RemoveInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RemoveRequirement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RequirementID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище FactoryModelContainer">
+          <EntitySet Name="InvoiceOnInput" EntityType="Self.InvoiceOnInput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movement" EntityType="Self.Movement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriceDictionary" EntityType="Self.PriceDictionary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequiermentOnOutput" EntityType="Self.RequiermentOnOutput" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_InvoiceOnInput_PriceDictionary" Association="Self.FK_InvoiceOnInput_PriceDictionary">
+            <End Role="PriceDictionary" EntitySet="PriceDictionary" />
+            <End Role="InvoiceOnInput" EntitySet="InvoiceOnInput" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movement_PriceDictionary" Association="Self.FK_Movement_PriceDictionary">
+            <End Role="PriceDictionary" EntitySet="PriceDictionary" />
+            <End Role="Movement" EntitySet="Movement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequiermentOnOutput_PriceDictionary" Association="Self.FK_RequiermentOnOutput_PriceDictionary">
+            <End Role="PriceDictionary" EntitySet="PriceDictionary" />
+            <End Role="RequiermentOnOutput" EntitySet="RequiermentOnOutput" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FactoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="InvoiceOnInput">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="InputCount" Type="Int32" Nullable="false" />
+          <Property Name="DateOfInput" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_InvoiceOnInput_PriceDictionary" FromRole="InvoiceOnInput" ToRole="PriceDictionary" />
+        </EntityType>
+        <EntityType Name="Movement">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="DetailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DetailCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_Movement_PriceDictionary" FromRole="Movement" ToRole="PriceDictionary" />
+        </EntityType>
+        <EntityType Name="PriceDictionary">
+          <Key>
+            <PropertyRef Name="DetailID" />
+          </Key>
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="InvoiceOnInputs" Relationship="FactoryModel.FK_InvoiceOnInput_PriceDictionary" FromRole="PriceDictionary" ToRole="InvoiceOnInput" />
+          <NavigationProperty Name="Movement" Relationship="FactoryModel.FK_Movement_PriceDictionary" FromRole="PriceDictionary" ToRole="Movement" />
+          <NavigationProperty Name="RequiermentOnOutputs" Relationship="FactoryModel.FK_RequiermentOnOutput_PriceDictionary" FromRole="PriceDictionary" ToRole="RequiermentOnOutput" />
+        </EntityType>
+        <EntityType Name="RequiermentOnOutput">
+          <Key>
+            <PropertyRef Name="RequirementID" />
+          </Key>
+          <Property Name="RequirementID" Type="Int32" Nullable="false" />
+          <Property Name="DetailID" Type="Int32" Nullable="false" />
+          <Property Name="OutputCount" Type="Int32" Nullable="false" />
+          <Property Name="DateOfOutput" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_RequiermentOnOutput_PriceDictionary" FromRole="RequiermentOnOutput" ToRole="PriceDictionary" />
+        </EntityType>
+        <EntityContainer Name="FactoryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="InvoiceOnInputs" EntityType="Self.InvoiceOnInput" />
+          <EntitySet Name="Movements" EntityType="Self.Movement" />
+          <EntitySet Name="PriceDictionaries" EntityType="Self.PriceDictionary" />
+          <EntitySet Name="RequiermentOnOutputs" EntityType="Self.RequiermentOnOutput" />
+          <AssociationSet Name="FK_InvoiceOnInput_PriceDictionary" Association="FactoryModel.FK_InvoiceOnInput_PriceDictionary">
+            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
+            <End Role="InvoiceOnInput" EntitySet="InvoiceOnInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movement_PriceDictionary" Association="FactoryModel.FK_Movement_PriceDictionary">
+            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
+            <End Role="Movement" EntitySet="Movements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequiermentOnOutput_PriceDictionary" Association="FactoryModel.FK_RequiermentOnOutput_PriceDictionary">
+            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
+            <End Role="RequiermentOnOutput" EntitySet="RequiermentOnOutputs" />
+          </AssociationSet>
+          <FunctionImport Name="MainDetailInfo" ReturnType="Collection(FactoryModel.MainDetailInfo_Result)" />
+          <FunctionImport Name="AddDetail">
+            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+            <Parameter Name="DetailName" Mode="In" Type="String" />
+            <Parameter Name="DetailCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddDetailPrice">
+            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="AddInvoice">
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+            <Parameter Name="InputCount" Mode="In" Type="Int32" />
+            <Parameter Name="DateOfInput" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="AddRequirement">
+            <Parameter Name="RequirementID" Mode="In" Type="Int32" />
+            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+            <Parameter Name="OutputCount" Mode="In" Type="Int32" />
+            <Parameter Name="DateOfOutput" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="RemoveDetail">
+            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemoveDetailPrice">
+            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemoveInvoice">
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemoveRequirement">
+            <Parameter Name="RequirementID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <Association Name="FK_InvoiceOnInput_PriceDictionary">
+          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="1" />
+          <End Type="FactoryModel.InvoiceOnInput" Role="InvoiceOnInput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="InvoiceOnInput">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movement_PriceDictionary">
+          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="1" />
+          <End Type="FactoryModel.Movement" Role="Movement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="Movement">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequiermentOnOutput_PriceDictionary">
+          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="1" />
+          <End Type="FactoryModel.RequiermentOnOutput" Role="RequiermentOnOutput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="RequiermentOnOutput">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="MainDetailInfo_Result">
+          <Property Type="Int32" Name="DetailID" Nullable="false" />
+          <Property Type="String" Name="DetailName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="DetailCount" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FactoryModelContainer" CdmEntityContainer="FactoryEntities">
+          <EntitySetMapping Name="InvoiceOnInputs">
+            <EntityTypeMapping TypeName="FactoryModel.InvoiceOnInput">
+              <MappingFragment StoreEntitySet="InvoiceOnInput">
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="InputCount" ColumnName="InputCount" />
+                <ScalarProperty Name="DateOfInput" ColumnName="DateOfInput" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movements">
+            <EntityTypeMapping TypeName="FactoryModel.Movement">
+              <MappingFragment StoreEntitySet="Movement">
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="DetailCount" ColumnName="DetailCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriceDictionaries">
+            <EntityTypeMapping TypeName="FactoryModel.PriceDictionary">
+              <MappingFragment StoreEntitySet="PriceDictionary">
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequiermentOnOutputs">
+            <EntityTypeMapping TypeName="FactoryModel.RequiermentOnOutput">
+              <MappingFragment StoreEntitySet="RequiermentOnOutput">
+                <ScalarProperty Name="RequirementID" ColumnName="RequirementID" />
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="OutputCount" ColumnName="OutputCount" />
+                <ScalarProperty Name="DateOfOutput" ColumnName="DateOfOutput" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MainDetailInfo" FunctionName="Хранилище FactoryModel.MainDetailInfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.MainDetailInfo_Result">
+                <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="DetailCount" ColumnName="DetailCount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddDetail" FunctionName="Хранилище FactoryModel.AddDetail" />
+          <FunctionImportMapping FunctionImportName="AddDetailPrice" FunctionName="Хранилище FactoryModel.AddDetailPrice" />
+          <FunctionImportMapping FunctionImportName="AddInvoice" FunctionName="Хранилище FactoryModel.AddInvoice" />
+          <FunctionImportMapping FunctionImportName="AddRequirement" FunctionName="Хранилище FactoryModel.AddRequirement" />
+          <FunctionImportMapping FunctionImportName="RemoveDetail" FunctionName="Хранилище FactoryModel.RemoveDetail" />
+          <FunctionImportMapping FunctionImportName="RemoveDetailPrice" FunctionName="Хранилище FactoryModel.RemoveDetailPrice" />
+          <FunctionImportMapping FunctionImportName="RemoveInvoice" FunctionName="Хранилище FactoryModel.RemoveInvoice" />
+          <FunctionImportMapping FunctionImportName="RemoveRequirement" FunctionName="Хранилище FactoryModel.RemoveRequirement" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,36 @@
+﻿<Window x:Class="PW21Factory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PW21Factory"
+        mc:Ignorable="d"
+        Title="Factory" MinHeight="350" MinWidth="600" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Icon="LogoIco.ico" Loaded="Window_Loaded">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem x:Name="AddRecord" Header="_Добавить" Click="AddRecord_Click"/>
+            <MenuItem x:Name="UpdateRecord" Header="_Изменить" Click="UpdateRecord_Click"/>
+            <MenuItem x:Name="RemoveRecord" Header="_Удалить" Click="RemoveRecord_Click"/>
+            <MenuItem x:Name="Invoice" Header="_Накладные" Click="Invoice_Click"/>
+            <MenuItem x:Name="RequirementOnOutput" Header="_Выдача" Click="RequirementOnOutput_Click"/>
+            <MenuItem x:Name="RefreshMainTable" Header="_Обновить" ToolTip="Обновляет таблицу" Click="RefreshMainTable_Click"/>
+            <MenuItem x:Name="Searcher" Header="_Поиск" Click="Searcher_Click"/>
+            <MenuItem Header="_Справка">
+                <MenuItem x:Name="Help" Header="Получить _справку" Click="Help_Click"/>
+                <MenuItem x:Name="AboutProgram" Header="_О программе" Click="AboutProgram_Click"/>
+            </MenuItem>
+        </Menu>
+        <GroupBox Header="Общая информация">
+            <ListView x:Name="MainTable">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Код детали" Width="100" DisplayMemberBinding="{Binding DetailID}"/>
+                        <GridViewColumn Header="Имя детали" Width="150" DisplayMemberBinding="{Binding DetailName}"/>
+                        <GridViewColumn Header="Кол-во" Width="70" DisplayMemberBinding="{Binding DetailCount}"/>
+                        <GridViewColumn Header="Цена" Width="150" DisplayMemberBinding="{Binding Price}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+    </DockPanel>
+</Window>

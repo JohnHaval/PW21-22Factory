@@ -1,0 +1,29 @@
+﻿<Window x:Class="PW21Factory.Recording"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PW21Factory"
+        mc:Ignorable="d"
+        Title="Добавить запись" SizeToContent="WidthAndHeight" MinWidth="250" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" FontSize="12" Loaded="Window_Loaded">
+    <DockPanel LastChildFill="False">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <Label MinWidth="80" Content="Код детали" Height="25" DockPanel.Dock="Top"/>
+            <TextBox x:Name="DetailID" MinWidth="60" Margin="3" MaxLength="6"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Label Content="Имя детали" DockPanel.Dock="Top" Height="25"/>
+            <TextBox x:Name="DetailName" MinWidth="100" Margin="3" MaxLength="50"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <Label MinWidth="80" Content="Кол-во деталей" Height="25" DockPanel.Dock="Top"/>
+            <TextBox x:Name="DetailCount" MinWidth="100" Margin="3" MaxLength="6"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <Label Content="Цена детали" DockPanel.Dock="Top" Margin="0,0,50,0" Height="25"/>
+            <TextBox x:Name="DetailPrice" MinWidth="100" Margin="3"/>
+        </DockPanel>
+        <Button x:Name="DoIt" Content="Добавить" DockPanel.Dock="Top" Margin="3" IsDefault="True" Click="DoIt_Click"/>
+        <Button Content="Отменить" DockPanel.Dock="Top" Margin="3" IsCancel="True"/>
+    </DockPanel>
+</Window>

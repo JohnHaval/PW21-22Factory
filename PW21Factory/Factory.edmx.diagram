@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="428b02a481c14d0a884de66a667bb943" Name="Diagram1">
+        <EntityTypeShape EntityType="FactoryModel.InvoiceOnInput" Width="1.5" PointX="0.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FactoryModel.Movement" Width="1.5" PointX="5.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FactoryModel.PriceDictionary" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FactoryModel.RequiermentOnOutput" Width="1.5" PointX="5.875" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="FactoryModel.FK_InvoiceOnInput_PriceDictionary" />
+        <AssociationConnector Association="FactoryModel.FK_Movement_PriceDictionary" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="FactoryModel.FK_RequiermentOnOutput_PriceDictionary" ></AssociationConnector>
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
