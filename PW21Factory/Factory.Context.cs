@@ -155,9 +155,13 @@ namespace PW21Factory
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDetailCost_Result>("GetDetailCost");
         }
     
-        public virtual ObjectResult<GetDetailCostOnRequirement_Result> GetDetailCostOnRequirement()
+        public virtual ObjectResult<GetDetailCostOnRequirement_Result> GetDetailCostOnRequirement(Nullable<int> reqID)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDetailCostOnRequirement_Result>("GetDetailCostOnRequirement");
+            var reqIDParameter = reqID.HasValue ?
+                new ObjectParameter("ReqID", reqID) :
+                new ObjectParameter("ReqID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDetailCostOnRequirement_Result>("GetDetailCostOnRequirement", reqIDParameter);
         }
     
         public virtual ObjectResult<GetInputCountOnMonth_Result> GetInputCountOnMonth(Nullable<int> month)

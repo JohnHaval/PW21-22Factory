@@ -114,14 +114,14 @@ namespace PW21Factory
         {
             int iRow = MainTable.SelectedIndex;
             if (iRow != -1)
-            {   
-                Movement detail = db.Movements.Local.ElementAt(iRow);
-                db.Movements.Remove(detail);
-                db.SaveChanges();
-                db = DBContext.UpdateContext();//Каскадное удаление ломает. При нем не обновляется локальная DB и происходит исключение,
-                db.Movements.Load();//если мы пытаемся добавить запись с тем же кодом, что был удален ранее
-                db.PriceDictionaries.Load();
-                MainTable.ItemsSource = db.MainDetailInfo();
+            {
+                if (CommonMessages.MessageBeforeRemove() == true)
+                {
+                    Movement detail = db.Movements.Local.ElementAt(iRow);
+                    db.Movements.Remove(detail);
+                    db.SaveChanges();
+                    MainTable.ItemsSource = db.MainDetailInfo();
+                }
             }
             else SelectMessage();
         }

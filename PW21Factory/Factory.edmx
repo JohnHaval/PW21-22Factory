@@ -104,7 +104,9 @@
         <Function Name="CountRemaining" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="GetDetailCost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetDetailCostOnRequirement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetDetailCostOnRequirement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReqID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetInputCountOnMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Month" Type="int" Mode="In" />
         </Function>
@@ -265,7 +267,9 @@
           </AssociationSet>
           <FunctionImport Name="CountRemaining" ReturnType="Collection(FactoryModel.CountRemaining_Result)" />
           <FunctionImport Name="GetDetailCost" ReturnType="Collection(FactoryModel.GetDetailCost_Result)" />
-          <FunctionImport Name="GetDetailCostOnRequirement" ReturnType="Collection(FactoryModel.GetDetailCostOnRequirement_Result)" />
+          <FunctionImport Name="GetDetailCostOnRequirement" ReturnType="Collection(FactoryModel.GetDetailCostOnRequirement_Result)" >
+            <Parameter Name="ReqID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="GetInputCountOnMonth" ReturnType="Collection(FactoryModel.GetInputCountOnMonth_Result)">
           <Parameter Name="Month" Mode="In" Type="Int32" />
           </FunctionImport>

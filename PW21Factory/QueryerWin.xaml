@@ -18,9 +18,23 @@
                         <TextBox x:Name="MonthNumber" Margin="3"/>
                     </DockPanel>
                 </GroupBox>
-                <RadioButton x:Name="RequirementDetailCost" Content="Стоимость отпущенных по требованию" GroupName="QuerySelection"/>
+                <GroupBox>
+                    <GroupBox.Header>
+                        <RadioButton x:Name="RequirementDetailCost" Content="Стоимость отпущенных по требованию" GroupName="QuerySelection"/>
+                    </GroupBox.Header>
+                    <DockPanel>
+                        <Label Content="Номер требования"/>
+                        <TextBox x:Name="ReqID" Margin="3"/>
+                    </DockPanel>
+                </GroupBox>
                 <RadioButton x:Name="Remaining" Content="Остаток всех деталей" GroupName="QuerySelection"/>
                 <RadioButton x:Name="AllCost" Content="Стоимость всех деталей" GroupName="QuerySelection"/>
+                <GroupBox>
+                    <GroupBox.Header>
+                        <RadioButton x:Name="MovementOnDate" Content="Движение по дате" GroupName="QuerySelection"/>
+                    </GroupBox.Header>
+                    <DatePicker x:Name="Date"/>
+                </GroupBox>
                 <GroupBox>
                     <GroupBox.Header>
                         <RadioButton x:Name="MostPopularDetail" Content="Выдаваемая деталь чаще всех" GroupName="QuerySelection"/>

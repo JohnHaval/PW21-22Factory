@@ -44,11 +44,34 @@ namespace PW21Factory
             }
             if (RequirementDetailCost.IsChecked == true)
             {
-                Queryer.ItemsSource = db.GetDetailCostOnRequirement();
+                if (ReqID.Text != "")
+                {
+                    try
+                    {
+                        int req = Convert.ToInt32(ReqID.Text);
+                        Queryer.ItemsSource = db.GetDetailCostOnRequirement(req);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Некорректно введенное значение номера требования!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else MessageBox.Show("Введите номер требования!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);                
             }
             if (Remaining.IsChecked == true)
             {
                 Queryer.ItemsSource = db.CountRemaining();
+            }
+            if (MovementOnDate.IsChecked == true)
+            {
+                try
+                {
+                    Queryer.ItemsSource = db.MovementOnDate(Date.SelectedDate);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             if (AllCost.IsChecked == true)
             {

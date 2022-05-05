@@ -25,5 +25,11 @@ namespace PW21Factory
         {
             MessageBox.Show($"Некорректно введено значение {text}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        public static bool? MessageBeforeRemove()
+        {
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите удалить выбранную запись?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes) return true;
+            return false;
+        }
     }
 }

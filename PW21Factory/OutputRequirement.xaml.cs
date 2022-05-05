@@ -95,9 +95,12 @@ namespace PW21Factory
         {
             if (RequirementOnOutput.SelectedIndex != -1)
             {
-                db.RequiermentOnOutputs.Remove(obj);
-                db.SaveChanges();
-                RequirementOnOutput.Items.Refresh();
+                if (CommonMessages.MessageBeforeRemove() == true)
+                {
+                    db.RequiermentOnOutputs.Remove(obj);
+                    db.SaveChanges();
+                    RequirementOnOutput.Items.Refresh();
+                }
             }
             else CommonMessages.MessageAboutSelectBeforeRemove();
         }
