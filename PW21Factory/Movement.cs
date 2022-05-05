@@ -14,10 +14,21 @@ namespace PW21Factory
     
     public partial class Movement
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Movement()
+        {
+            this.InvoiceOnInputs = new HashSet<InvoiceOnInput>();
+            this.RequiermentOnOutputs = new HashSet<RequiermentOnOutput>();
+        }
+    
         public int DetailID { get; set; }
         public string DetailName { get; set; }
         public int DetailCount { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoiceOnInput> InvoiceOnInputs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RequiermentOnOutput> RequiermentOnOutputs { get; set; }
         public virtual PriceDictionary PriceDictionary { get; set; }
     }
 }

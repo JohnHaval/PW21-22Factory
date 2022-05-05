@@ -68,7 +68,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommonMessages.cs" />
+    <Compile Include="CountRemaining_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBContext.cs" />
+    <Compile Include="GetDetailCostOnRequirement_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetDetailCost_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetInputCountOnMonth_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
     <Compile Include="IDContainer.cs" />
     <Compile Include="Factory.Context.cs">
       <AutoGen>True</AutoGen>
@@ -97,11 +109,17 @@
     <Compile Include="Movement.cs">
       <DependentUpon>Factory.tt</DependentUpon>
     </Compile>
+    <Compile Include="MovementOnDate_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
     <Compile Include="OutputRequirement.xaml.cs">
       <DependentUpon>OutputRequirement.xaml</DependentUpon>
     </Compile>
     <Compile Include="PriceDictionary.cs">
       <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QueryerWin.xaml.cs">
+      <DependentUpon>QueryerWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Recording.xaml.cs">
       <DependentUpon>Recording.xaml</DependentUpon>
@@ -111,6 +129,12 @@
     </Compile>
     <Compile Include="SearcherWin.xaml.cs">
       <DependentUpon>SearcherWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>Factory.tt</DependentUpon>
     </Compile>
     <Page Include="InputInvoice.xaml">
       <SubType>Designer</SubType>
@@ -129,6 +153,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OutputRequirement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QueryerWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

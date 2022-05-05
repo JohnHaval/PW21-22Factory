@@ -19,6 +19,6 @@ namespace PW21Factory
         public int OutputCount { get; set; }
         public System.DateTime DateOfOutput { get; set; }
     
-        public virtual PriceDictionary PriceDictionary { get; set; }
+        public virtual Movement Movement { get; set; }
     }
 }

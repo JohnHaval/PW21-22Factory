@@ -7,11 +7,16 @@
         mc:Ignorable="d"
         Title="SearcherWin" MinWidth="200" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" FontSize="12" SizeToContent="WidthAndHeight" Activated="Window_Activated" Loaded="Window_Loaded">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem x:Name="Find" Header="_Найти" Click="Find_Click"/>
-        </Menu>
-        <GroupBox Header="Имя детали">
-            <TextBox x:Name="FindVal" MaxLength="50"/>
+        <GroupBox DockPanel.Dock="Bottom">
+            <GroupBox.Header>
+                <Label Content="Поиск детали" />
+            </GroupBox.Header>
+            <StackPanel>
+                <Label Content="Имя детали"/>
+                <TextBox x:Name="FindVal" MaxLength="50" Margin="3"/>
+                <Button  x:Name="Find" Content="_Найти" Click="Find_Click" Margin="3" IsDefault="True"/>
+            </StackPanel>
         </GroupBox>
+        <Button IsCancel="True" Visibility="Hidden"/>
     </DockPanel>
 </Window>

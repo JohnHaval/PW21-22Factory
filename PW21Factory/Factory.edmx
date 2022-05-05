@@ -38,11 +38,13 @@
           <Property Name="OutputCount" Type="int" Nullable="false" />
           <Property Name="DateOfOutput" Type="date" Nullable="false" />
         </EntityType>
-        <Association Name="FK_InvoiceOnInput_PriceDictionary">
-          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="1" />
+        <Association Name="FK_InvoiceOnInput_Movement">
+          <End Role="Movement" Type="Self.Movement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="InvoiceOnInput" Type="Self.InvoiceOnInput" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PriceDictionary">
+            <Principal Role="Movement">
               <PropertyRef Name="DetailID" />
             </Principal>
             <Dependent Role="InvoiceOnInput">
@@ -50,23 +52,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Movement_PriceDictionary">
-          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="1" />
-          <End Role="Movement" Type="Self.Movement" Multiplicity="0..1" />
+        <Association Name="FK_PriceDictionary_Movement">
+          <End Role="Movement" Type="Self.Movement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="PriceDictionary">
+            <Principal Role="Movement">
               <PropertyRef Name="DetailID" />
             </Principal>
-            <Dependent Role="Movement">
+            <Dependent Role="PriceDictionary">
               <PropertyRef Name="DetailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RequiermentOnOutput_PriceDictionary">
-          <End Role="PriceDictionary" Type="Self.PriceDictionary" Multiplicity="1" />
+        <Association Name="FK_RequiermentOnOutput_Movement">
+          <End Role="Movement" Type="Self.Movement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RequiermentOnOutput" Type="Self.RequiermentOnOutput" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PriceDictionary">
+            <Principal Role="Movement">
               <PropertyRef Name="DetailID" />
             </Principal>
             <Dependent Role="RequiermentOnOutput">
@@ -95,7 +101,18 @@
           <Parameter Name="OutputCount" Type="int" Mode="In" />
           <Parameter Name="DateOfOutput" Type="date" Mode="In" />
         </Function>
+        <Function Name="CountRemaining" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="GetDetailCost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetDetailCostOnRequirement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetInputCountOnMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Month" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetNameOfDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MainDetailInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="MovementOnDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Date" Type="date" Mode="In" />
+        </Function>
         <Function Name="RemoveDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DetailID" Type="int" Mode="In" />
         </Function>
@@ -108,21 +125,51 @@
         <Function Name="RemoveRequirement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RequirementID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Хранилище FactoryModelContainer">
           <EntitySet Name="InvoiceOnInput" EntityType="Self.InvoiceOnInput" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movement" EntityType="Self.Movement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceDictionary" EntityType="Self.PriceDictionary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequiermentOnOutput" EntityType="Self.RequiermentOnOutput" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_InvoiceOnInput_PriceDictionary" Association="Self.FK_InvoiceOnInput_PriceDictionary">
-            <End Role="PriceDictionary" EntitySet="PriceDictionary" />
+          <AssociationSet Name="FK_InvoiceOnInput_Movement" Association="Self.FK_InvoiceOnInput_Movement">
+            <End Role="Movement" EntitySet="Movement" />
             <End Role="InvoiceOnInput" EntitySet="InvoiceOnInput" />
           </AssociationSet>
-          <AssociationSet Name="FK_Movement_PriceDictionary" Association="Self.FK_Movement_PriceDictionary">
-            <End Role="PriceDictionary" EntitySet="PriceDictionary" />
+          <AssociationSet Name="FK_PriceDictionary_Movement" Association="Self.FK_PriceDictionary_Movement">
             <End Role="Movement" EntitySet="Movement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequiermentOnOutput_PriceDictionary" Association="Self.FK_RequiermentOnOutput_PriceDictionary">
             <End Role="PriceDictionary" EntitySet="PriceDictionary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequiermentOnOutput_Movement" Association="Self.FK_RequiermentOnOutput_Movement">
+            <End Role="Movement" EntitySet="Movement" />
             <End Role="RequiermentOnOutput" EntitySet="RequiermentOnOutput" />
           </AssociationSet>
         </EntityContainer>
@@ -138,7 +185,7 @@
           <Property Name="DetailID" Type="Int32" Nullable="false" />
           <Property Name="InputCount" Type="Int32" Nullable="false" />
           <Property Name="DateOfInput" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_InvoiceOnInput_PriceDictionary" FromRole="InvoiceOnInput" ToRole="PriceDictionary" />
+          <NavigationProperty Name="Movement" Relationship="FactoryModel.FK_InvoiceOnInput_Movement" FromRole="InvoiceOnInput" ToRole="Movement" />
         </EntityType>
         <EntityType Name="Movement">
           <Key>
@@ -147,7 +194,9 @@
           <Property Name="DetailID" Type="Int32" Nullable="false" />
           <Property Name="DetailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DetailCount" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_Movement_PriceDictionary" FromRole="Movement" ToRole="PriceDictionary" />
+          <NavigationProperty Name="InvoiceOnInputs" Relationship="FactoryModel.FK_InvoiceOnInput_Movement" FromRole="Movement" ToRole="InvoiceOnInput" />
+          <NavigationProperty Name="RequiermentOnOutputs" Relationship="FactoryModel.FK_RequiermentOnOutput_Movement" FromRole="Movement" ToRole="RequiermentOnOutput" />
+          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_PriceDictionary_Movement" FromRole="Movement" ToRole="PriceDictionary" />
         </EntityType>
         <EntityType Name="PriceDictionary">
           <Key>
@@ -155,9 +204,7 @@
           </Key>
           <Property Name="DetailID" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="InvoiceOnInputs" Relationship="FactoryModel.FK_InvoiceOnInput_PriceDictionary" FromRole="PriceDictionary" ToRole="InvoiceOnInput" />
-          <NavigationProperty Name="Movement" Relationship="FactoryModel.FK_Movement_PriceDictionary" FromRole="PriceDictionary" ToRole="Movement" />
-          <NavigationProperty Name="RequiermentOnOutputs" Relationship="FactoryModel.FK_RequiermentOnOutput_PriceDictionary" FromRole="PriceDictionary" ToRole="RequiermentOnOutput" />
+          <NavigationProperty Name="Movement" Relationship="FactoryModel.FK_PriceDictionary_Movement" FromRole="PriceDictionary" ToRole="Movement" />
         </EntityType>
         <EntityType Name="RequiermentOnOutput">
           <Key>
@@ -167,25 +214,13 @@
           <Property Name="DetailID" Type="Int32" Nullable="false" />
           <Property Name="OutputCount" Type="Int32" Nullable="false" />
           <Property Name="DateOfOutput" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="PriceDictionary" Relationship="FactoryModel.FK_RequiermentOnOutput_PriceDictionary" FromRole="RequiermentOnOutput" ToRole="PriceDictionary" />
+          <NavigationProperty Name="Movement" Relationship="FactoryModel.FK_RequiermentOnOutput_Movement" FromRole="RequiermentOnOutput" ToRole="Movement" />
         </EntityType>
         <EntityContainer Name="FactoryEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="InvoiceOnInputs" EntityType="Self.InvoiceOnInput" />
           <EntitySet Name="Movements" EntityType="Self.Movement" />
           <EntitySet Name="PriceDictionaries" EntityType="Self.PriceDictionary" />
           <EntitySet Name="RequiermentOnOutputs" EntityType="Self.RequiermentOnOutput" />
-          <AssociationSet Name="FK_InvoiceOnInput_PriceDictionary" Association="FactoryModel.FK_InvoiceOnInput_PriceDictionary">
-            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
-            <End Role="InvoiceOnInput" EntitySet="InvoiceOnInputs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movement_PriceDictionary" Association="FactoryModel.FK_Movement_PriceDictionary">
-            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
-            <End Role="Movement" EntitySet="Movements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequiermentOnOutput_PriceDictionary" Association="FactoryModel.FK_RequiermentOnOutput_PriceDictionary">
-            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
-            <End Role="RequiermentOnOutput" EntitySet="RequiermentOnOutputs" />
-          </AssociationSet>
           <FunctionImport Name="MainDetailInfo" ReturnType="Collection(FactoryModel.MainDetailInfo_Result)" />
           <FunctionImport Name="AddDetail">
             <Parameter Name="DetailID" Mode="In" Type="Int32" />
@@ -209,23 +244,83 @@
             <Parameter Name="DateOfOutput" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="RemoveDetail">
-            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+          <Parameter Name="DetailID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="RemoveDetailPrice">
-            <Parameter Name="DetailID" Mode="In" Type="Int32" />
+          <Parameter Name="DetailID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="RemoveInvoice">
-            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="RemoveRequirement">
-            <Parameter Name="RequirementID" Mode="In" Type="Int32" />
+          <Parameter Name="RequirementID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_InvoiceOnInput_Movement" Association="FactoryModel.FK_InvoiceOnInput_Movement">
+            <End Role="Movement" EntitySet="Movements" />
+            <End Role="InvoiceOnInput" EntitySet="InvoiceOnInputs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequiermentOnOutput_Movement" Association="FactoryModel.FK_RequiermentOnOutput_Movement">
+            <End Role="Movement" EntitySet="Movements" />
+            <End Role="RequiermentOnOutput" EntitySet="RequiermentOnOutputs" />
+          </AssociationSet>
+          <FunctionImport Name="CountRemaining" ReturnType="Collection(FactoryModel.CountRemaining_Result)" />
+          <FunctionImport Name="GetDetailCost" ReturnType="Collection(FactoryModel.GetDetailCost_Result)" />
+          <FunctionImport Name="GetDetailCostOnRequirement" ReturnType="Collection(FactoryModel.GetDetailCostOnRequirement_Result)" />
+          <FunctionImport Name="GetInputCountOnMonth" ReturnType="Collection(FactoryModel.GetInputCountOnMonth_Result)">
+          <Parameter Name="Month" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetNameOfDetail" ReturnType="Collection(String)" />
+          <FunctionImport Name="MovementOnDate" ReturnType="Collection(FactoryModel.MovementOnDate_Result)">
+          <Parameter Name="Date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(FactoryModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(FactoryModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="FK_PriceDictionary_Movement" Association="FactoryModel.FK_PriceDictionary_Movement">
+            <End Role="Movement" EntitySet="Movements" />
+            <End Role="PriceDictionary" EntitySet="PriceDictionaries" />
+          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_InvoiceOnInput_PriceDictionary">
-          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="1" />
+        <ComplexType Name="MainDetailInfo_Result">
+          <Property Type="Int32" Name="DetailID" Nullable="false" />
+          <Property Type="String" Name="DetailName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="DetailCount" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+        </ComplexType>
+        <Association Name="FK_InvoiceOnInput_Movement">
+          <End Type="FactoryModel.Movement" Role="Movement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="FactoryModel.InvoiceOnInput" Role="InvoiceOnInput" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PriceDictionary">
+            <Principal Role="Movement">
               <PropertyRef Name="DetailID" />
             </Principal>
             <Dependent Role="InvoiceOnInput">
@@ -233,23 +328,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Movement_PriceDictionary">
-          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="1" />
-          <End Type="FactoryModel.Movement" Role="Movement" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PriceDictionary">
-              <PropertyRef Name="DetailID" />
-            </Principal>
-            <Dependent Role="Movement">
-              <PropertyRef Name="DetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RequiermentOnOutput_PriceDictionary">
-          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="1" />
+        <Association Name="FK_RequiermentOnOutput_Movement">
+          <End Type="FactoryModel.Movement" Role="Movement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="FactoryModel.RequiermentOnOutput" Role="RequiermentOnOutput" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PriceDictionary">
+            <Principal Role="Movement">
               <PropertyRef Name="DetailID" />
             </Principal>
             <Dependent Role="RequiermentOnOutput">
@@ -257,12 +342,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="MainDetailInfo_Result">
-          <Property Type="Int32" Name="DetailID" Nullable="false" />
+        <ComplexType Name="CountRemaining_Result">
           <Property Type="String" Name="DetailName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="DetailCount" Nullable="false" />
-          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="AfterOutputCount" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="GetDetailCost_Result">
+          <Property Type="String" Name="DetailName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Cost" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="GetDetailCostOnRequirement_Result">
+          <Property Type="Int32" Name="RequirementID" Nullable="false" />
+          <Property Type="Decimal" Name="OutputPrice" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="GetInputCountOnMonth_Result">
+          <Property Type="String" Name="DetailName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="InputCount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MovementOnDate_Result">
+          <Property Type="String" Name="DetailName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DateOfInput" Nullable="true" />
+          <Property Type="Int32" Name="InputCount" Nullable="true" />
+          <Property Type="DateTime" Name="DateOfOutput" Nullable="true" />
+          <Property Type="Int32" Name="OutputCount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <Association Name="FK_PriceDictionary_Movement">
+          <End Type="FactoryModel.Movement" Role="Movement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FactoryModel.PriceDictionary" Role="PriceDictionary" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Movement">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="PriceDictionary">
+              <PropertyRef Name="DetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -324,6 +452,75 @@
           <FunctionImportMapping FunctionImportName="RemoveDetailPrice" FunctionName="Хранилище FactoryModel.RemoveDetailPrice" />
           <FunctionImportMapping FunctionImportName="RemoveInvoice" FunctionName="Хранилище FactoryModel.RemoveInvoice" />
           <FunctionImportMapping FunctionImportName="RemoveRequirement" FunctionName="Хранилище FactoryModel.RemoveRequirement" />
+          <FunctionImportMapping FunctionImportName="CountRemaining" FunctionName="Хранилище FactoryModel.CountRemaining">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.CountRemaining_Result">
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="DetailCount" ColumnName="DetailCount" />
+                <ScalarProperty Name="AfterOutputCount" ColumnName="AfterOutputCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDetailCost" FunctionName="Хранилище FactoryModel.GetDetailCost">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.GetDetailCost_Result">
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDetailCostOnRequirement" FunctionName="Хранилище FactoryModel.GetDetailCostOnRequirement">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.GetDetailCostOnRequirement_Result">
+                <ScalarProperty Name="RequirementID" ColumnName="RequirementID" />
+                <ScalarProperty Name="OutputPrice" ColumnName="OutputPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInputCountOnMonth" FunctionName="Хранилище FactoryModel.GetInputCountOnMonth">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.GetInputCountOnMonth_Result">
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="InputCount" ColumnName="InputCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetNameOfDetail" FunctionName="Хранилище FactoryModel.GetNameOfDetail" />
+          <FunctionImportMapping FunctionImportName="MovementOnDate" FunctionName="Хранилище FactoryModel.MovementOnDate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.MovementOnDate_Result">
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="DateOfInput" ColumnName="DateOfInput" />
+                <ScalarProperty Name="InputCount" ColumnName="InputCount" />
+                <ScalarProperty Name="DateOfOutput" ColumnName="DateOfOutput" />
+                <ScalarProperty Name="OutputCount" ColumnName="OutputCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище FactoryModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище FactoryModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище FactoryModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище FactoryModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище FactoryModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FactoryModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище FactoryModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище FactoryModel.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

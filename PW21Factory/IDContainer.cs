@@ -40,7 +40,7 @@ namespace PW21Factory
             FactoryEntities db = DBContext.GetContext();
             try
             {
-                if (db.RequirementOnOutputs.Find(id) == null) throw new Exception();
+                if (db.RequiermentOnOutputs.Find(id) == null) throw new Exception();
                 return true;
             }
             catch { return false; }            

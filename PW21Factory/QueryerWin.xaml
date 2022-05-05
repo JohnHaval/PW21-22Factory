@@ -1,0 +1,35 @@
+﻿<Window x:Class="PW21Factory.QueryerWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PW21Factory"
+        mc:Ignorable="d"
+        Title="QueryerWin" MinHeight="450" MinWidth="400" SizeToContent="Width" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <DockPanel>
+        <GroupBox Header="Запросы" DockPanel.Dock="Bottom">
+            <StackPanel>
+                <GroupBox>
+                    <GroupBox.Header>
+                        <RadioButton x:Name="CountDetailOnMonth" Content="Кол-во деталей полученные за 1 месяц" GroupName="QuerySelection" IsChecked="True"/>
+                    </GroupBox.Header>
+                    <DockPanel>
+                        <Label Content="Номер месяца"/>
+                        <TextBox x:Name="MonthNumber" Margin="3"/>
+                    </DockPanel>
+                </GroupBox>
+                <RadioButton x:Name="RequirementDetailCost" Content="Стоимость отпущенных по требованию" GroupName="QuerySelection"/>
+                <RadioButton x:Name="Remaining" Content="Остаток всех деталей" GroupName="QuerySelection"/>
+                <RadioButton x:Name="AllCost" Content="Стоимость всех деталей" GroupName="QuerySelection"/>
+                <GroupBox>
+                    <GroupBox.Header>
+                        <RadioButton x:Name="MostPopularDetail" Content="Выдаваемая деталь чаще всех" GroupName="QuerySelection"/>
+                    </GroupBox.Header>
+                    <TextBox x:Name="ResultName" Margin="3" IsReadOnly="True"/>
+                </GroupBox>
+                <Button x:Name="DoQuery" Content="Определить" Margin="3" IsDefault="True" Click="DoQuery_Click"/>
+            </StackPanel>
+        </GroupBox>
+        <DataGrid x:Name="Queryer" MinWidth="380" MinHeight="200" IsReadOnly="True" DockPanel.Dock="Top"/>
+    </DockPanel>
+</Window>

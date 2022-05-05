@@ -28,8 +28,8 @@ namespace PW21Factory
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             db = DBContext.GetContext();
-            db.RequirementOnOutputs.Load();
-            RequirementOnOutput.ItemsSource = db.RequirementOnOutputs.Local.ToBindingList();
+            db.RequiermentOnOutputs.Load();
+            RequirementOnOutput.ItemsSource = db.RequiermentOnOutputs.Local.ToBindingList();
         }
         RequiermentOnOutput obj;
         private void RequirementOnOutput_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -54,7 +54,7 @@ namespace PW21Factory
                 {
                     db.AddRequirement(requirementID, detailID, outputCount, dateOfOutput);
                     db.SaveChanges();
-                    db.RequirementOnOutputs.Load();
+                    db.RequiermentOnOutputs.Load();
                     RequirementOnOutput.Items.Refresh();
                 }
                 else CommonMessages.MessageAboutIDHas("Добавление");
@@ -95,7 +95,7 @@ namespace PW21Factory
         {
             if (RequirementOnOutput.SelectedIndex != -1)
             {
-                db.RequirementOnOutputs.Remove(obj);
+                db.RequiermentOnOutputs.Remove(obj);
                 db.SaveChanges();
                 RequirementOnOutput.Items.Refresh();
             }

@@ -9,10 +9,9 @@
         <EntityTypeShape EntityType="FactoryModel.Movement" Width="1.5" PointX="5.375" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="FactoryModel.PriceDictionary" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FactoryModel.RequiermentOnOutput" Width="1.5" PointX="5.875" PointY="3.5" IsExpanded="true" />
-        <AssociationConnector Association="FactoryModel.FK_InvoiceOnInput_PriceDictionary" />
-        <AssociationConnector Association="FactoryModel.FK_Movement_PriceDictionary" ManuallyRouted="false" >
-        </AssociationConnector>
-        <AssociationConnector Association="FactoryModel.FK_RequiermentOnOutput_PriceDictionary" ></AssociationConnector>
+        <AssociationConnector Association="FactoryModel.FK_InvoiceOnInput_Movement" />
+        <AssociationConnector Association="FactoryModel.FK_RequiermentOnOutput_Movement" />
+        <AssociationConnector Association="FactoryModel.FK_PriceDictionary_Movement" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

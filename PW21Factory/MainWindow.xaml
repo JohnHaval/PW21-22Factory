@@ -15,6 +15,7 @@
             <MenuItem x:Name="RequirementOnOutput" Header="_Выдача" Click="RequirementOnOutput_Click"/>
             <MenuItem x:Name="RefreshMainTable" Header="_Обновить" ToolTip="Обновляет таблицу" Click="RefreshMainTable_Click"/>
             <MenuItem x:Name="Searcher" Header="_Поиск" Click="Searcher_Click"/>
+            <MenuItem x:Name="Queryer" Header="_Запросник" Click="Queryer_Click"/>
             <MenuItem Header="_Справка">
                 <MenuItem x:Name="Help" Header="Получить _справку" Click="Help_Click"/>
                 <MenuItem x:Name="AboutProgram" Header="_О программе" Click="AboutProgram_Click"/>

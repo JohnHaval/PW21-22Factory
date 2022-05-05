@@ -10,13 +10,10 @@
 namespace PW21Factory
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PriceDictionary
+    public partial class GetDetailCost_Result
     {
-        public int DetailID { get; set; }
-        public decimal Price { get; set; }
-    
-        public virtual Movement Movement { get; set; }
+        public string DetailName { get; set; }
+        public Nullable<decimal> Cost { get; set; }
     }
 }

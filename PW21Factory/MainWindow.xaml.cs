@@ -130,5 +130,14 @@ namespace PW21Factory
         {
             MainTable.ItemsSource = db.MainDetailInfo();
         }
+
+        private void Queryer_Click(object sender, RoutedEventArgs e)
+        {
+            QueryerWin win = new QueryerWin()
+            {
+                Owner = this
+            };
+            win.ShowDialog();
+        }
     }
 }
